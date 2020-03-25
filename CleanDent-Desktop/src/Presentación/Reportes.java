@@ -9,12 +9,12 @@ import Modelo.Conexion;
 import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
+//import net.sf.jasperreports.engine.JRException;
+//import net.sf.jasperreports.engine.JasperFillManager;
+//import net.sf.jasperreports.engine.JasperPrint;
+//import net.sf.jasperreports.engine.JasperReport;
+//import net.sf.jasperreports.engine.util.JRLoader;
+//import net.sf.jasperreports.view.JasperViewer;
 
 
 /**
@@ -73,7 +73,7 @@ public class Reportes extends javax.swing.JFrame {
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
    
         
-        Conexion con = new Conexion();
+        /*Conexion con = new Conexion();
         Connection cn = con.getConexion();
         
         JasperReport reporte = null;
@@ -92,7 +92,7 @@ public class Reportes extends javax.swing.JFrame {
            
         } catch (JRException ex) {
             Logger.getLogger(Reportes.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }//GEN-LAST:event_btnReportesActionPerformed
 
     /**

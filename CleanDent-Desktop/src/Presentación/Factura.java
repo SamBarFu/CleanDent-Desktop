@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import org.hibernate.Session;
+//import org.hibernate.Session;
 
 /**
  *
@@ -29,77 +29,68 @@ public class Factura extends javax.swing.JFrame {
      */
     public Factura() {
         initComponents();
-        
+
     }
-    
-     public void mostrar() {
-           
-        Conexion con= new Conexion();
-        Connection conexion= con.getConexion();
-        
-           
-           String sql="select c.fecha, c.hora,p.PrimerNombre,\n" +
-"SUM(t.`Precio`+s.precio) As SubTotal,\n" +
-"SUM(t.descuento+s.descuento) As Descuento,\n" +
-"SUM((t.`Precio`-t.descuento)-(s.precio-s.descuento)) As Total\n" +
-"from consulta c\n" +
-"inner join cita ci\n" +
-"on c.idcita= ci.idcita\n" +
-"inner join paciente p\n" +
-"on ci.idPaciente= p.idPaciente\n" +
-"inner join CitaTratamiento ct\n" +
-"on ct.idcita= ci.idcita\n" +
-"inner join CitaServicio cs\n" +
-"on cs.idcita= ci.idcita\n" +
-"inner join Tratamiento  t\n" +
-"on t.idtratamiento=ct.`idCitaTratamiento`\n" +
-"inner join Servicio s\n" +
-"on s.idservicio= cs.idservicio WHERE idconsulta LIKE '%"+jfacturanum+"%'";
-           Statement st;
-           
-           DefaultTableModel model= new DefaultTableModel ();
-           model.addColumn("Fecha");
-           model.addColumn("Hora");
-           model.addColumn("Paciente");
-           model.addColumn("Subtotal");
-           model.addColumn("Descuento");
-           model.addColumn("Total");
-           
-           
-           TabF.setModel(model);
-          
-           
-           String[] datos = new String[5];
-           
-            ResultSet rs;
-            
-            
+
+    public void mostrar() {
+
+        Conexion con = new Conexion();
+        Connection conexion = con.getConexion();
+
+        String sql = "select c.fecha, c.hora,p.PrimerNombre,\n"
+                + "SUM(t.`Precio`+s.precio) As SubTotal,\n"
+                + "SUM(t.descuento+s.descuento) As Descuento,\n"
+                + "SUM((t.`Precio`-t.descuento)-(s.precio-s.descuento)) As Total\n"
+                + "from consulta c\n"
+                + "inner join cita ci\n"
+                + "on c.idcita= ci.idcita\n"
+                + "inner join paciente p\n"
+                + "on ci.idPaciente= p.idPaciente\n"
+                + "inner join CitaTratamiento ct\n"
+                + "on ct.idcita= ci.idcita\n"
+                + "inner join CitaServicio cs\n"
+                + "on cs.idcita= ci.idcita\n"
+                + "inner join Tratamiento  t\n"
+                + "on t.idtratamiento=ct.`idCitaTratamiento`\n"
+                + "inner join Servicio s\n"
+                + "on s.idservicio= cs.idservicio WHERE idconsulta LIKE '%" + jfacturanum + "%'";
+        Statement st;
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Fecha");
+        model.addColumn("Hora");
+        model.addColumn("Paciente");
+        model.addColumn("Subtotal");
+        model.addColumn("Descuento");
+        model.addColumn("Total");
+
+        TabF.setModel(model);
+
+        String[] datos = new String[5];
+
+        ResultSet rs;
+
         try {
-            st= (Statement)conexion.createStatement();
+            st = (Statement) conexion.createStatement();
             rs = st.executeQuery(sql);
-            
-            while(rs.next()){
-              
-                datos[0]=rs.getString(1);
-                datos[1]=rs.getString(2);
-                datos[2]=rs.getString(3);
-                datos[3]=rs.getString(4);
-                datos[4]=rs.getString(5);
-                datos[5]=rs.getString(6);
-                
-                
-                 
+
+            while (rs.next()) {
+
+                datos[0] = rs.getString(1);
+                datos[1] = rs.getString(2);
+                datos[2] = rs.getString(3);
+                datos[3] = rs.getString(4);
+                datos[4] = rs.getString(5);
+                datos[5] = rs.getString(6);
+
                 model.addRow(datos);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Doctores.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-       }
-            
-      
-    
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -257,28 +248,27 @@ public class Factura extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        
-        
-        JOptionPane.showMessageDialog(null,"Seguro que quieres Cancelar");
-      
-        
+
+        JOptionPane.showMessageDialog(null, "Seguro que quieres Cancelar");
+
+
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
         // TODO add your handling code here:
-      mostrar();
+        mostrar();
     }//GEN-LAST:event_btnGenerarActionPerformed
 
     private void jfacturanumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jfacturanumActionPerformed
         // TODO add your handling code here:
-        Consultas c =  new Consultas();
-      
-      if(c.TablaConsultas.getSelectedRow()>0){
-          
-          jfacturanum.setText(c.TablaConsultas.getValueAt(c.TablaConsultas.getSelectedRow(),0).toString());
-          
-      }
-        
+        Consultas c = new Consultas();
+
+        if (c.TablaConsultas.getSelectedRow() > 0) {
+
+            jfacturanum.setText(c.TablaConsultas.getValueAt(c.TablaConsultas.getSelectedRow(), 0).toString());
+
+        }
+
     }//GEN-LAST:event_jfacturanumActionPerformed
 
     /**

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Presentación;
 
 import Modelo.Hash;
@@ -28,15 +23,15 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     public Login() {
-         initComponents();
-         
+        initComponents();
+
 //         ImageIcon imagen = new ImageIcon("Downloads/name.png");
 //         Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(lblUsuario.getWidth(), lblUsuario.getHeight(), Image.SCALE_DEFAULT));
 //         lblUsuario.setIcon(icono);
 //         this.repaint();
 //         
-         this.getContentPane().setBackground(Color.GRAY);
-     
+        this.getContentPane().setBackground(Color.GRAY);
+
     }
 
     /**
@@ -84,12 +79,6 @@ public class Login extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Cambria Math", 1, 18)); // NOI18N
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication1/Imagenes/lock (1).png"))); // NOI18N
-
-        TxtUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TxtUsuarioActionPerformed(evt);
-            }
-        });
 
         jLabel6.setFont(new java.awt.Font("Cambria Math", 1, 18)); // NOI18N
         jLabel6.setText("Inicio De Sesión");
@@ -157,46 +146,39 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         SQLusuario modSql = new SQLusuario();
         Usuario mod = new Usuario();
-        
+
         Date date = new Date();
         DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        
+
         String pass = new String(TxtContraseña.getPassword());
-        
-        if(!TxtUsuario.getText().equals("") && !pass.equals(""))
-        {
-            
+
+        System.out.println("1");
+
+        if (!TxtUsuario.getText().equals("") && !pass.equals("")) {
+            System.out.println("2");
             String nuevoPass = Hash.sha1(pass);
-            
+
             mod.setUsuario(TxtUsuario.getText());
             mod.setPassword(nuevoPass);
             mod.setLast_session(fechaHora.format(date));
-            
-            if(modSql.Login(mod))
-            {
-                new Principal(mod).setVisible(true);
+
+            if (modSql.Login(mod)) {
+                new Principal().setVisible(true);
                 this.dispose();
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Datos incorrectos");
             }
+        } else {
+            System.out.println("3");
+            JOptionPane.showMessageDialog(rootPane, "Debe ingresar sus Datos");
+            System.out.println("4");
         }
-        else
-        {
-             JOptionPane.showMessageDialog(null, "Debe ingresar sus Datos");
-        }
- 
- 
-     
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void TxtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TxtUsuarioActionPerformed
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

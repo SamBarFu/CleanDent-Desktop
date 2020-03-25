@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import javax.swing.table.DefaultTableModel;
-import org.hibernate.Session;
+//import org.hibernate.Session;
 
 /**
  *

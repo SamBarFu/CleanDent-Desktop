@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 import javafx.scene.chart.PieChart.Data;
 import javax.swing.JOptionPane;
-import org.hibernate.Session;
+//import org.hibernate.Session;
 
 /**
  *
@@ -272,7 +272,7 @@ public class RegistroCitas extends javax.swing.JFrame {
             pps.executeUpdate();
         
             
-            new DetallesCita().setVisible(true);
+            //new DetallesCita().setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(Registro_paciente.class.getName()).log(Level.SEVERE, null, ex);
         } 

@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author Isabella
@@ -27,75 +26,70 @@ public class ListadoCitas extends javax.swing.JFrame {
      */
     public ListadoCitas() {
         initComponents();
-        setLocationRelativeTo(null);  
+        setLocationRelativeTo(null);
         mostrar();
     }
-    
-     public void mostrar() {
-           
-        Conexion con= new Conexion();
-        Connection conexion= con.getConexion();
-        
-           
-           String sql="select c.fecha,c.hora,c.idConsultorio,d.PrimerNombre,p.PrimerNombre,t.Nombre,s.nombre,c.estado\n" +
-"from cita c\n" +
-"inner join doctor d\n" +
-"on c.idDoctor= d.idDoctor\n" +
-"inner join paciente p\n" +
-" on c.idPaciente = p.idPaciente\n" +
-" inner join citatratamiento ct\n" +
-" on ct.idcita=c.idcita\n" +
-" inner join citaservicio cs\n" +
-" on cs.idcita= c.idcita\n" +
-" inner join tratamiento t\n" +
-" on ct.idtratamiento= t.idtratamiento\n" +
-" inner join servicio s\n" +
-" on cs.idservicio= s.idservicio ";
-           Statement st;
-           
-           DefaultTableModel model= new DefaultTableModel ();
-           model.addColumn("Fecha");
-           model.addColumn("Hora");
-           model.addColumn("Nº Consultorio");
-           model.addColumn("Doctor");
-           model.addColumn("Paciente");
-           model.addColumn("Tratamieto");
-           model.addColumn("Servicio");
-           model.addColumn("Estado");
-           
-           TablaCitas.setModel(model);
-          
-           
-           String[] datos = new String[7];
-           
-            ResultSet rs;
-            
-            
+
+    public void mostrar() {
+
+        Conexion con = new Conexion();
+        Connection conexion = con.getConexion();
+
+        String sql = "select c.fecha,c.hora,c.idConsultorio,d.PrimerNombre,p.PrimerNombre,t.Nombre,s.nombre,c.estado\n"
+                + "from cita c\n"
+                + "inner join doctor d\n"
+                + "on c.idDoctor= d.idDoctor\n"
+                + "inner join paciente p\n"
+                + " on c.idPaciente = p.idPaciente\n"
+                + " inner join citatratamiento ct\n"
+                + " on ct.idcita=c.idcita\n"
+                + " inner join citaservicio cs\n"
+                + " on cs.idcita= c.idcita\n"
+                + " inner join tratamiento t\n"
+                + " on ct.idtratamiento= t.idtratamiento\n"
+                + " inner join servicio s\n"
+                + " on cs.idservicio= s.idservicio ";
+        Statement st;
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Fecha");
+        model.addColumn("Hora");
+        model.addColumn("Nº Consultorio");
+        model.addColumn("Doctor");
+        model.addColumn("Paciente");
+        model.addColumn("Tratamieto");
+        model.addColumn("Servicio");
+        model.addColumn("Estado");
+
+        TablaCitas.setModel(model);
+
+        String[] datos = new String[7];
+
+        ResultSet rs;
+
         try {
-            st= (Statement)conexion.createStatement();
+            st = (Statement) conexion.createStatement();
             rs = st.executeQuery(sql);
-            
-            while(rs.next()){
-              
-                datos[0]=rs.getString(1);
-                datos[1]=rs.getString(2);
-                datos[2]=rs.getString(3);
-                datos[3]=rs.getString(4);
-                datos[4]=rs.getString(5);
-                datos[5]=rs.getString(6);
-                datos[6]=rs.getString(7);
-                datos[7]=rs.getString(8);
-                
-                 
+
+            while (rs.next()) {
+
+                datos[0] = rs.getString(1);
+                datos[1] = rs.getString(2);
+                datos[2] = rs.getString(3);
+                datos[3] = rs.getString(4);
+                datos[4] = rs.getString(5);
+                datos[5] = rs.getString(6);
+                datos[6] = rs.getString(7);
+                datos[7] = rs.getString(8);
+
                 model.addRow(datos);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Doctores.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-       }
-            
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author Isabella
@@ -26,76 +25,70 @@ public class Consultas extends javax.swing.JFrame {
      */
     public Consultas() {
         initComponents();
-       setLocationRelativeTo(null);
-       mostrar();
+        setLocationRelativeTo(null);
+        mostrar();
     }
-    
-      public void mostrar() {
-           
-        Conexion con= new Conexion();
-        Connection conexion= con.getConexion();
-        
-           
-           String sql="select c.idconsulta,  c.fecha, c.hora, c.idcita, d.PrimerNombre,p.PrimerNombre,t.Nombre,s.nombre ,ci.`idConsultorio`\n" +
-"from consulta c\n" +
-"inner join cita ci\n" +
-"on c.idcita= ci.idcita\n" +
-"inner join doctor d\n" +
-"on ci.idDoctor= d.idDoctor\n" +
-"inner join paciente p\n" +
-"on ci.idPaciente= p.idPaciente \n" +
-" inner join tratamiento t\n" +
-" on ci.idtratamiento= t.idtratamiento\n" +
-" inner join servicio s\n" +
-" on ci.idservicio= s.idservicio ";
-           Statement st;
-           
-           DefaultTableModel model= new DefaultTableModel ();
-           model.addColumn("NºConsulta");
-           model.addColumn("Fecha");
-           model.addColumn("Hora");
-           model.addColumn("Nº Cita");
-           model.addColumn("Doctor");
-           model.addColumn("Paciente");
-           model.addColumn("Tratamiento");
-           model.addColumn("Servicio");
-           model.addColumn("Nº Consultorio");
-          
-           
-           TablaConsultas.setModel(model);
-          
-           
-           String[] datos = new String[8];
-           
-            ResultSet rs;
-            
-            
+
+    public void mostrar() {
+
+        Conexion con = new Conexion();
+        Connection conexion = con.getConexion();
+
+        String sql = "select c.idconsulta,  c.fecha, c.hora, c.idcita, d.PrimerNombre,p.PrimerNombre,t.Nombre,s.nombre ,ci.`idConsultorio`\n"
+                + "from consulta c\n"
+                + "inner join cita ci\n"
+                + "on c.idcita= ci.idcita\n"
+                + "inner join doctor d\n"
+                + "on ci.idDoctor= d.idDoctor\n"
+                + "inner join paciente p\n"
+                + "on ci.idPaciente= p.idPaciente \n"
+                + " inner join tratamiento t\n"
+                + " on ci.idtratamiento= t.idtratamiento\n"
+                + " inner join servicio s\n"
+                + " on ci.idservicio= s.idservicio ";
+        Statement st;
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("NºConsulta");
+        model.addColumn("Fecha");
+        model.addColumn("Hora");
+        model.addColumn("Nº Cita");
+        model.addColumn("Doctor");
+        model.addColumn("Paciente");
+        model.addColumn("Tratamiento");
+        model.addColumn("Servicio");
+        model.addColumn("Nº Consultorio");
+
+        TablaConsultas.setModel(model);
+
+        String[] datos = new String[8];
+
+        ResultSet rs;
+
         try {
-            st= (Statement)conexion.createStatement();
+            st = (Statement) conexion.createStatement();
             rs = st.executeQuery(sql);
-            
-            while(rs.next()){
-              
-                datos[0]=rs.getString(1);
-                datos[1]=rs.getString(2);
-                datos[2]=rs.getString(3);
-                datos[3]=rs.getString(4);
-                datos[4]=rs.getString(5);
-                datos[5]=rs.getString(6);
-                datos[6]=rs.getString(7);
-                datos[7]=rs.getString(8);
-                datos[8]=rs.getString(9);
-                
-                
-                 
+
+            while (rs.next()) {
+
+                datos[0] = rs.getString(1);
+                datos[1] = rs.getString(2);
+                datos[2] = rs.getString(3);
+                datos[3] = rs.getString(4);
+                datos[4] = rs.getString(5);
+                datos[5] = rs.getString(6);
+                datos[6] = rs.getString(7);
+                datos[7] = rs.getString(8);
+                datos[8] = rs.getString(9);
+
                 model.addRow(datos);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Doctores.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-       }
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -220,75 +213,69 @@ public class Consultas extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-       
-       new Factura().setVisible(true);
-      
+
+        new Factura().setVisible(true);
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void buscarCKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarCKeyPressed
         // TODO add your handling code here:
-        
-            Conexion con= new Conexion();
-        Connection conexion= con.getConexion();
-        
-        
-        
-          String sql=" select c.fecha, c.hora, c.idcita, d.PrimerNombre,p.PrimerNombre,t.Nombre,s.nombre ,ci.`idConsultorio`\n" +
-"from consulta WHERE d.PrimerNombre LIKE '%"+buscarC.getText()+"%' c\n" +
- "OR c.fecha LIKE '%"+buscarC.getText()+"%'"+
-"inner join cita ci\n" +
-"on c.idcita= ci.idcita\n" +
-"inner join doctor d\n" +
-"on ci.idDoctor= d.idDoctor\n" +
-"inner join paciente p\n" +
-"on ci.idPaciente= p.idPaciente \n" +
-" inner join tratamiento t\n" +
-" on ci.idtratamiento= t.idtratamiento\n" +
-" inner join servicio s\n" +
-" on ci.idservicio= s.idservicio";
-        
-  DefaultTableModel model= new DefaultTableModel ();
-           model.addColumn("Fecha");
-           model.addColumn("Hora");
-           model.addColumn("Nº Cita");
-           model.addColumn("Doctor");
-           model.addColumn("Paciente");
-           model.addColumn("Tratamiento");
-           model.addColumn("Servicio");
-           model.addColumn("Nº Consultorio");
-            TablaConsultas.setModel(model);
-            String[] datos = new String[7];
-            
-          try {
-            
+
+        Conexion con = new Conexion();
+        Connection conexion = con.getConexion();
+
+        String sql = " select c.fecha, c.hora, c.idcita, d.PrimerNombre,p.PrimerNombre,t.Nombre,s.nombre ,ci.`idConsultorio`\n"
+                + "from consulta WHERE d.PrimerNombre LIKE '%" + buscarC.getText() + "%' c\n"
+                + "OR c.fecha LIKE '%" + buscarC.getText() + "%'"
+                + "inner join cita ci\n"
+                + "on c.idcita= ci.idcita\n"
+                + "inner join doctor d\n"
+                + "on ci.idDoctor= d.idDoctor\n"
+                + "inner join paciente p\n"
+                + "on ci.idPaciente= p.idPaciente \n"
+                + " inner join tratamiento t\n"
+                + " on ci.idtratamiento= t.idtratamiento\n"
+                + " inner join servicio s\n"
+                + " on ci.idservicio= s.idservicio";
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Fecha");
+        model.addColumn("Hora");
+        model.addColumn("Nº Cita");
+        model.addColumn("Doctor");
+        model.addColumn("Paciente");
+        model.addColumn("Tratamiento");
+        model.addColumn("Servicio");
+        model.addColumn("Nº Consultorio");
+        TablaConsultas.setModel(model);
+        String[] datos = new String[7];
+
+        try {
 
             Statement st;
-                st = (Statement) conexion.createStatement();
+            st = (Statement) conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            
-            
-             while(rs.next()){
-                datos[0]=rs.getString(1);
-                datos[1]=rs.getString(2);
-                datos[2]=rs.getString(3);
-                datos[3]=rs.getString(4);
-                datos[4]=rs.getString(5);
-                datos[5]=rs.getString(6);
-                datos[6]=rs.getString(7);
-                datos[7]=rs.getString(8);
-               
+
+            while (rs.next()) {
+                datos[0] = rs.getString(1);
+                datos[1] = rs.getString(2);
+                datos[2] = rs.getString(3);
+                datos[3] = rs.getString(4);
+                datos[4] = rs.getString(5);
+                datos[5] = rs.getString(6);
+                datos[6] = rs.getString(7);
+                datos[7] = rs.getString(8);
+
                 model.addRow(datos);
-                 conexion.close();
+                conexion.close();
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Doctores.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
-         
-        
-        
-        
+
+
     }//GEN-LAST:event_buscarCKeyPressed
 
     /**
