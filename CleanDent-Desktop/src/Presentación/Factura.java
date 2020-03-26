@@ -5,7 +5,7 @@
  */
 package Presentación;
 
-import Modelo.Conexion;
+import DB.Conexion;
 import Presentación.Doctores;
 import java.sql.Connection;
 import java.sql.ResultSet;

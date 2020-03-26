@@ -5,20 +5,14 @@ create database clean_dent;
 
 use clean_dent;
 
-create table tipo_usuario(
+/*create table tipo_usuario(
 id_tipo_usuario int primary key not null auto_increment,
 nombre varchar(20) not null
-);
+);*/
 
-create table usuario(
-id_usuario int primary key not null auto_increment,
-usuario varchar(20) not null,
-contrasena varchar(20) not null,
-correo varchar(120) not null,
-last_session datetime,
-estado boolean, 
-id_tipo_usuario int not null,
-foreign key (id_tipo_usuario) references tipo_usuario(id_tipo_usuario)
+create table rol(
+id_rol int primary key not null auto_increment,
+nombre varchar(20)
 );
 
 create table empleado(
@@ -30,11 +24,12 @@ primer_apellido varchar(50) not null,
 segundo_apellido varchar(50) default null,
 foto varchar(100) null,
 telefono varchar(15) not null, 
+correo varchar(120) not null,
 fecha_nacimiento date,
 genero char(1),
+id_rol int not null,
 estado boolean,
-id_usuario int not null,
-foreign key (id_usuario) references usuario(id_usuario)
+foreign key (id_rol) references rol(id_rol)
 );
 
 create table especialidad(
@@ -44,18 +39,8 @@ nombre varchar(50)
 
 create table doctor(
 id_doctor int primary key not null auto_increment,
-cedula varchar(16),
-primer_nombre varchar(50) not null,
-segundo_nombre varchar(50) default null,
-primer_apellido varchar(50) not null,
-segundo_apellido varchar(50) default null,
-foto varchar(100) null,
-telefono varchar(15) not null, 
-fecha_nacimiento date,
-genero char(1),
-estado boolean,
-id_usuario int not null,
-foreign key (id_usuario) references usuario(id_usuario)
+id_empleado int not null,
+foreign key (id_empleado) references empleado(id_empleado)
 );
 
 create table doctor_especialidad(
@@ -64,6 +49,16 @@ id_doctor int not null,
 id_especialidad int not null,
 foreign key (id_doctor) references doctor(id_doctor),
 foreign key (id_especialidad) references especialidad(id_especialidad)
+);
+
+create table usuario(
+id_usuario int primary key not null auto_increment,
+id_empleado int not null,
+usuario varchar(20) not null,
+contrasena varchar(20) not null,
+last_session datetime,
+estado boolean, 
+foreign key (id_empleado) references empleado(id_empleado)
 );
 
 create table paciente (
@@ -122,7 +117,7 @@ id_expediente int not null,
 id_tratamiento int not null, 
 fecha_inicio date,
 fecha_fin date,
-evaluacion varchar(254),
+estado varchar(20),
 last_update datetime,
 foreign key (id_expediente) references expediente(id_expediente),
 foreign key (id_tratamiento) references tratamiento(id_tratamiento)

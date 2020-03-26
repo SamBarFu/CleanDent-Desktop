@@ -6,9 +6,9 @@
 package Presentación;
 
 
-import Modelo.Hash;
-import Modelo.SQLusuario;
-import Modelo.Usuario;
+import DB.Hash;
+import DB.SQLusuario;
+import DB.Usuario;
 import javax.swing.JOptionPane;
 
 /**

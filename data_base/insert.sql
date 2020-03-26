@@ -165,7 +165,74 @@ inner join expediente e on e.id_expediente=o.id_expediente
 inner join paciente p on p.id_paciente=e.id_paciente
 inner join diente d on deo.id_diente=d.id_diente
 inner join manifestacion m on deo.id_manifestacion=m.id_manifestacion
-where p.cedula = "001-110599-1003B"
+where p.cedula = "001-110599-1003B";
+
+INSERT INTO `clean_dent`.`rol`
+(`nombre`)
+VALUES
+("Gerente"),
+("Doctor"),
+("Recepcionista");
+
+select * from rol;
+
+INSERT INTO `clean_dent`.`empleado`
+(`cedula`,
+`primer_nombre`,
+`segundo_nombre`,
+`primer_apellido`,
+`segundo_apellido`,
+`foto`,
+`telefono`,
+`correo`,
+`fecha_nacimiento`,
+`genero`,
+`id_rol`,
+`estado`)
+VALUES
+("001-020578-1542R","Fanor","","Rivera","","./","86547689","drfanorrivera@gmail.com",STR_TO_DATE('02.05.78' ,GET_FORMAT(date,'USA')),'M',2,1);
+
+select * from empleado;
+
+INSERT INTO `clean_dent`.`doctor`
+(`id_empleado`)
+VALUES
+(1);
+
+select * from doctor;
+
+INSERT INTO `clean_dent`.`doctor_especialidad`
+(`id_doctor`,
+`id_especialidad`)
+VALUES
+(1,1),
+(1,2),
+(1,3),
+(1,4),
+(1,5),
+(1,6),
+(1,7),
+(1,8),
+(1,9);
+
+select * from especialidad;
+select * from doctor_especialidad;
+
+INSERT INTO `clean_dent`.`usuario`
+(`id_empleado`,
+`usuario`,
+`contrasena`,
+`last_session`,
+`estado`)
+VALUES
+(1,"fanorR","123456",now(),1);
+
+select * from usuario;
+
+
+
+
+
 
 
 

@@ -1,10 +1,16 @@
 package Presentación;
 
-import Modelo.Hash;
-import Modelo.SQLusuario;
-import Modelo.Usuario;
+import DAO.UsuarioDAO;
+import DB.Conexion;
+import DB.Hash;
+import DB.SQLusuario;
+import Negocio.UsuarioBO;
+import POJO.Mensaje;
+//import DB.Usuario;
+import POJO.Usuario;
 import java.awt.Color;
 import java.awt.Image;
+import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,10 +24,11 @@ import javax.swing.JOptionPane;
  * @author Isabella
  */
 public class Login extends javax.swing.JFrame {
+    
+    Usuario u; 
+    UsuarioBO usuarioBO = new UsuarioBO();
+    Mensaje mensaje = new Mensaje();
 
-    /**
-     * Creates new form Login
-     */
     public Login() {
         initComponents();
 
@@ -44,12 +51,13 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanelLogin = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnIngresar = new javax.swing.JButton();
         lblUsuario = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        TxtContraseña = new javax.swing.JPasswordField();
-        TxtUsuario = new javax.swing.JTextField();
+        lblContrasena = new javax.swing.JLabel();
+        txtContrasena = new javax.swing.JPasswordField();
+        txtUsuario = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Inicio de Sesion");
@@ -59,16 +67,17 @@ public class Login extends javax.swing.JFrame {
         jPanelLogin.setBackground(new java.awt.Color(196, 213, 211));
         jPanelLogin.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton1.setBackground(new java.awt.Color(0, 204, 204));
-        jButton1.setFont(new java.awt.Font("Cambria Math", 1, 18)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication1/Imagenes/enter.png"))); // NOI18N
-        jButton1.setText("Ingresar");
-        jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnIngresar.setBackground(new java.awt.Color(0, 204, 204));
+        btnIngresar.setFont(new java.awt.Font("Cambria Math", 1, 18)); // NOI18N
+        btnIngresar.setForeground(new java.awt.Color(51, 51, 51));
+        btnIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication1/Imagenes/enter.png"))); // NOI18N
+        btnIngresar.setText("Ingresar");
+        btnIngresar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        btnIngresar.setBorderPainted(false);
+        btnIngresar.setContentAreaFilled(false);
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnIngresarActionPerformed(evt);
             }
         });
 
@@ -77,11 +86,29 @@ public class Login extends javax.swing.JFrame {
         lblUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication1/Imagenes/name (1).png"))); // NOI18N
         lblUsuario.setLabelFor(lblUsuario);
 
-        jLabel5.setFont(new java.awt.Font("Cambria Math", 1, 18)); // NOI18N
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication1/Imagenes/lock (1).png"))); // NOI18N
+        lblContrasena.setFont(new java.awt.Font("Cambria Math", 1, 18)); // NOI18N
+        lblContrasena.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication1/Imagenes/lock (1).png"))); // NOI18N
 
+        txtContrasena.setText("123456");
+
+        txtUsuario.setText("fanorR");
+        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUsuarioActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setBackground(new java.awt.Color(51, 51, 51));
         jLabel6.setFont(new java.awt.Font("Cambria Math", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setText("Inicio De Sesión");
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelLoginLayout = new javax.swing.GroupLayout(jPanelLogin);
         jPanelLogin.setLayout(jPanelLoginLayout);
@@ -91,14 +118,14 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(94, Short.MAX_VALUE)
                 .addGroup(jPanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelLoginLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addComponent(lblContrasena)
                         .addGap(18, 18, 18)
-                        .addComponent(TxtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(jPanelLoginLayout.createSequentialGroup()
                         .addComponent(lblUsuario)
                         .addGap(18, 18, 18)
-                        .addComponent(TxtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(134, 134, 134))))
             .addGroup(jPanelLoginLayout.createSequentialGroup()
                 .addGroup(jPanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,8 +134,10 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jLabel6))
                     .addGroup(jPanelLoginLayout.createSequentialGroup()
                         .addGap(103, 103, 103)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(jButton1)))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanelLoginLayout.setVerticalGroup(
             jPanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,15 +146,21 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(35, 35, 35)
                 .addGroup(jPanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(TxtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUsuario))
                 .addGap(30, 30, 30)
                 .addGroup(jPanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5)
-                    .addComponent(TxtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+                    .addComponent(lblContrasena)
+                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelLoginLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLoginLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addGap(21, 21, 21))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,7 +180,7 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
 
         SQLusuario modSql = new SQLusuario();
         Usuario mod = new Usuario();
@@ -153,24 +188,24 @@ public class Login extends javax.swing.JFrame {
         Date date = new Date();
         DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        String pass = new String(TxtContraseña.getPassword());
+        String pass = new String(txtContrasena.getPassword());
 
         System.out.println("1");
 
-        if (!TxtUsuario.getText().equals("") && !pass.equals("")) {
+        if (!txtUsuario.getText().equals("") && !pass.equals("")) {
             System.out.println("2");
             String nuevoPass = Hash.sha1(pass);
 
-            mod.setUsuario(TxtUsuario.getText());
-            mod.setPassword(nuevoPass);
-            mod.setLast_session(fechaHora.format(date));
+            mod.setUsuario(txtUsuario.getText());
+           //mod.setPassword(nuevoPass);
+            //mod.setLast_session(fechaHora.format(date));
 
-            if (modSql.Login(mod)) {
-                new Principal().setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Datos incorrectos");
-            }
+//            if (modSql.Login(mod)) {
+//                new Principal().setVisible(true);
+//                this.dispose();
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Datos incorrectos");
+//            }
         } else {
             System.out.println("3");
             JOptionPane.showMessageDialog(rootPane, "Debe ingresar sus Datos");
@@ -178,8 +213,35 @@ public class Login extends javax.swing.JFrame {
         }
 
 
+    }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        u = new Usuario();
+        u.setUsuario(txtUsuario.getText());
+        u.setContrasena(String.valueOf(txtContrasena.getPassword()));
+        
+        mensaje = usuarioBO.loginUsuario(u);
+        
+        if(mensaje.isEstado()){
+            JOptionPane.showMessageDialog(rootPane, mensaje.getText());
+            new Principal().setVisible(true);
+            this.dispose();
+            
+        }else{
+            JOptionPane.showMessageDialog(rootPane, mensaje.getText());
+            Limpiar();
+        }               
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUsuarioActionPerformed
+
+    public void Limpiar(){
+        txtUsuario.setText(null); 
+        txtContrasena.setText(null); 
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -217,12 +279,13 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPasswordField TxtContraseña;
-    private javax.swing.JTextField TxtUsuario;
+    private javax.swing.JButton btnIngresar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanelLogin;
+    private javax.swing.JLabel lblContrasena;
     private javax.swing.JLabel lblUsuario;
+    private javax.swing.JPasswordField txtContrasena;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

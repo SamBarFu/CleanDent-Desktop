@@ -6,7 +6,7 @@
 package Presentación;
 
 
-import Modelo.Conexion;
+import DB.Conexion;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

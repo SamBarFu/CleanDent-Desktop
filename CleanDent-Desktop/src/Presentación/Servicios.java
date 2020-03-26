@@ -5,7 +5,7 @@
  */
 package Presentación;
 
-import Modelo.Conexion;
+import DB.Conexion;
 import com.sun.glass.events.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

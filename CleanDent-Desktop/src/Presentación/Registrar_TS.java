@@ -7,7 +7,7 @@ package Presentación;
 
 
 //import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
-import Modelo.Conexion;
+import DB.Conexion;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

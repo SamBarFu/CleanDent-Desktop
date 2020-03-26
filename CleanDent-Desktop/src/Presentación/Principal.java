@@ -7,7 +7,7 @@ package Presentación;
 
 
 //import Modelo.Consultorio;
-import Modelo.Usuario;
+import DB.Usuario;
 import Presentación.CitasP;
 import Presentación.DoctoresP;
 import Presentación.Login;
