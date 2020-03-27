@@ -2,6 +2,7 @@
 package DAO;
 
 import DB.SQLusuario;
+import POJO.Empleado;
 import POJO.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,13 +18,19 @@ import javax.swing.JOptionPane;
  */
 public class UsuarioDAO {
     
-    private boolean estado=false;
+    //private boolean estado=false;
     
-    public boolean loginUsuario(Connection c, Usuario usuario){       
+    public Empleado loginUsuario(Connection c, Usuario usuario){       
         PreparedStatement ps = null;
         ResultSet rs = null;
+        Empleado empleado=null;
 
-        String sql = "select u.usuario, u.contrasena from usuario u where usuario=?  and contrasena=?";
+        String sql = "select e.id_empleado, e.primer_nombre, e.primer_apellido, r.id_rol, e.foto from usuario u " +
+                     "inner join empleado e on u.id_empleado=e.id_empleado " +
+                     "inner join rol r on r.id_rol=e.id_rol " +
+                     "where usuario=? and contrasena=?";
+        
+        //String sql = "select * from usuario where usuario=? and contrasena=?";
 
         try {
             ps = c.prepareStatement(sql);
@@ -32,15 +39,20 @@ public class UsuarioDAO {
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                estado = true;                               
+                empleado = new Empleado();
+                empleado.setId(rs.getInt(1));
+                empleado.setPrimerNombre(rs.getString(2));
+                empleado.setPrimerApellido(rs.getString(3));
+                empleado.setRol(Empleado.Rol.values()[rs.getInt(4)-1]);
+                empleado.setFoto(rs.getString(5)); 
+                
             }else{
-                estado = false;
+                return empleado;
             }
                
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
-        
-        return estado;
+        return empleado;
     }    
 }

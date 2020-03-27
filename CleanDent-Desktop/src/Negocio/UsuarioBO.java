@@ -3,9 +3,12 @@ package Negocio;
 
 import DAO.UsuarioDAO;
 import DB.Conexion;
+import POJO.Empleado;
 import POJO.Mensaje;
 import POJO.Usuario;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,12 +19,14 @@ public class UsuarioBO {
     Mensaje mensaje = new Mensaje();
     UsuarioDAO usuarioDAO = new UsuarioDAO();
     
-    public Mensaje loginUsuario(Usuario usuario){
+    public List<Object> loginUsuario(Usuario usuario){
         Connection con = Conexion.getConexion();
+        List<Object> result = new ArrayList<Object>();
+        Empleado empleado = usuarioDAO.loginUsuario(con, usuario);
         try { 
-            if(usuarioDAO.loginUsuario(con, usuario)){
+            if(empleado != null){
                 mensaje.setEstado(true);
-                mensaje.setText("Bienvenido"); 
+                mensaje.setText("Bienvenido Dr. "+empleado.getPrimerApellido());
             }else{
                 mensaje.setEstado(false);
                 mensaje.setText("Usuario o contrasena incorrecta"); 
@@ -29,8 +34,10 @@ public class UsuarioBO {
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-        return mensaje;
+        }      
+        result.add(empleado);
+        result.add(mensaje);
+        return result;
     }
     
 }

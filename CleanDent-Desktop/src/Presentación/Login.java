@@ -1,8 +1,10 @@
 package Presentación;
 
 import Negocio.UsuarioBO;
+import POJO.Empleado;
 import POJO.Mensaje;
 import POJO.Usuario;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -10,9 +12,11 @@ import javax.swing.JOptionPane;
  * @author Isabella
  */
 public class Login extends javax.swing.JFrame {
-    
-    Usuario u; 
+
+    Usuario u;
     UsuarioBO usuarioBO = new UsuarioBO();
+    List<Object> result = null;
+    Empleado empleado;
     Mensaje mensaje = new Mensaje();
 
     public Login() {
@@ -87,10 +91,12 @@ public class Login extends javax.swing.JFrame {
 
         txtUsuario.setBackground(new java.awt.Color(255, 255, 255));
         txtUsuario.setForeground(new java.awt.Color(51, 51, 51));
+        txtUsuario.setText("fanorR");
         txtUsuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 5));
 
         txtContrasena.setBackground(new java.awt.Color(255, 255, 255));
         txtContrasena.setForeground(new java.awt.Color(51, 51, 51));
+        txtContrasena.setText("123456");
         txtContrasena.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 5));
 
         lblUsuario.setFont(new java.awt.Font("Cambria Math", 0, 16)); // NOI18N
@@ -180,28 +186,33 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        u = new Usuario();
-        u.setUsuario(txtUsuario.getText());
-        u.setContrasena(String.valueOf(txtContrasena.getPassword()));
-        
-        mensaje = usuarioBO.loginUsuario(u);
-        
-        if(mensaje.isEstado()){
-            JOptionPane.showMessageDialog(rootPane, mensaje.getText());
-            new Principal().setVisible(true);
-            this.dispose();
-            
-        }else{
-            JOptionPane.showMessageDialog(rootPane, mensaje.getText());
-            Limpiar();
-        }               
+        if ((!txtUsuario.getText().isEmpty()) & (!String.valueOf(txtContrasena.getPassword()).isEmpty())) {
+            u = new Usuario();
+            u.setUsuario(txtUsuario.getText());
+            u.setContrasena(String.valueOf(txtContrasena.getPassword()));
+            result = usuarioBO.loginUsuario(u);
+            empleado = (Empleado) result.get(0);
+            mensaje = (Mensaje) result.get(1);
+
+            if (mensaje.isEstado()) {
+                JOptionPane.showMessageDialog(rootPane, mensaje.getText());
+                new PrincipalDoctor(empleado).setVisible(true);
+                this.dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(rootPane, mensaje.getText());
+                Limpiar();
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Rellene todos los campo joven, por algo están ahí no?");
+        }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
-    public void Limpiar(){
-        txtUsuario.setText(null); 
-        txtContrasena.setText(null); 
+    public void Limpiar() {
+        txtUsuario.setText(null);
+        txtContrasena.setText(null);
     }
-    
+
     /**
      * @param args the command line arguments
      */
